@@ -1,1 +1,4 @@
-ECHO jest wˆ¥czone.
+/target
+*.iml
+*.swp
+/.idea
