@@ -4,15 +4,23 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class FileController {
 
+    FileProcessor fileProcessor;
+
+    public FileController(@Autowired FileProcessor fp){
+        this.fileProcessor = fp;
+    }
+
+
     private final AtomicLong counter = new AtomicLong();
 
     @RequestMapping(path="/file", method={RequestMethod.POST})
-    public String write(@RequestParam(value="line") String line) throws IOException {
+    public String write(@RequestBody String line) throws IOException {
         File file = new File("spring.txt");
         FileWriter fw = new FileWriter(file, true);
         fw.write(line + System.lineSeparator());
@@ -30,6 +38,12 @@ public class FileController {
         }
         return list;
     }
+    @RequestMapping(path="/file", method={RequestMethod.DELETE})
+    public String delete(String name)  throws IOException {
+        new File("spring.txt").delete();
+        return "deleted";
+    }
+
     ////////////////////////////////////////////////////
 
 
